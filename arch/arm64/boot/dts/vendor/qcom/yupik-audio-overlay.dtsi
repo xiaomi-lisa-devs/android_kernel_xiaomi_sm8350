@@ -492,6 +492,16 @@
 	};
 };
 
+/*
+&dai_mi2s1_rx {
+	qcom,msm-mi2s-lines = <0>;
+};
+
+&dai_mi2s1_tx {
+	qcom,msm-mi2s-lines = <1>;
+};
+*/
+
 &adsp_loader {
 	nvmem-cells = <&adsp_variant>;
 	nvmem-cell-names = "adsp_variant";
