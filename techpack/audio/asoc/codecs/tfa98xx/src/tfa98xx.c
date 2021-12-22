@@ -4026,7 +4026,7 @@ static int tfa98xx_i2c_probe(struct i2c_client *i2c,
     if (0 == tfa98xx_device_count)
     	tfa98xx_ext_reset(tfa98xx);
 
-	if ((no_start == 0) && (no_reset == 0)) {
+    if ((no_start == 0) && (no_reset == 0)) {
 		ret = regmap_read(tfa98xx->regmap, 0x03, &reg);
 		if (ret < 0) {
 			dev_err(&i2c->dev, "Failed to read Revision register: %d\n",
