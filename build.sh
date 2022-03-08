@@ -5,10 +5,10 @@
 
 SECONDS=0 # builtin bash timer
 ZIPNAME="QuicksilveR-lisa-$(date '+%Y%m%d-%H%M').zip"
-TC_DIR="$HOME/tc/clang-r416183b1"
-GCC_64_DIR="$HOME/tc/aarch64-linux-android-4.9"
-GCC_32_DIR="$HOME/tc/arm-linux-androideabi-4.9"
-AK3_DIR="$HOME/AnyKernel3"
+TC_DIR="/home/saalim/giovanni/kernel/clang-stable"
+GCC_64_DIR="/home/saalim/giovanni/kernel/aarch64-linux-android-4.9"
+GCC_32_DIR="/home/saalim/giovanni/kernel/arm-linux-androideabi-4.9"
+AK3_DIR="AnyKernel3"
 DEFCONFIG="lisa_defconfig"
 
 MAKE_PARAMS="O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- LLVM=1 \
@@ -44,7 +44,7 @@ if [ -f "$kernel" ] && [ -f "$dtb" ] && [ -f "$dtbo" ]; then
 	echo -e "\nKernel compiled succesfully! Zipping up...\n"
 	if [ -d "$AK3_DIR" ]; then
 		cp -r $AK3_DIR AnyKernel3
-	elif ! git clone -q https://github.com/ghostrider-reborn/AnyKernel3; then
+	elif ! git clone -q https://github.com/ghostrider-reborn/AnyKernel3 -b lisa; then
 		echo -e "\nAnyKernel3 repo not found locally and couldn't clone from GitHub! Aborting..."
 		exit 1
 	fi
