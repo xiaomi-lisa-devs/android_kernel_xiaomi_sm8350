@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
  * Copyright (c) 2018-2019 The Linux Foundation. All rights reserved.
- * Copyright (C) 2021 XiaoMi, Inc.
  */
 
 #include "debug.h"
@@ -52,7 +51,6 @@ void dwc3_dbg_print(struct dwc3 *dwc, u8 ep_num, const char *name,
 
 	ipc_log_string(dwc->dwc_ipc_log_ctxt, "%02X %-25.25s %4i ?\t%s",
 			ep_num, name, status, extra);
-	pr_err("%02X %-25.25s %4i ?\t%s",ep_num, name, status, extra);
 }
 EXPORT_SYMBOL(dwc3_dbg_print);
 
@@ -71,7 +69,6 @@ void dwc3_dbg_done(struct dwc3 *dwc, u8 ep_num,
 
 	ipc_log_string(dwc->dwc_ipc_log_ctxt, "%02X %-25.25s %4i ?\t%d",
 			ep_num, "DONE", status, count);
-	pr_err("%02X %-25.25s %4i ?\t%d",ep_num, "DONE", status, count);
 }
 
 /**
@@ -105,8 +102,6 @@ void dwc3_dbg_queue(struct dwc3 *dwc, u8 ep_num,
 		ipc_log_string(dwc->dwc_ipc_log_ctxt,
 			"%02X %-25.25s %4i ?\t%d %d", ep_num, "QUEUE", status,
 			!req->no_interrupt, req->length);
-		pr_err("%02X %-25.25s %4i ?\t%d %d", ep_num, "QUEUE", status,
-			!req->no_interrupt, req->length);
 	}
 }
 
@@ -127,10 +122,6 @@ void dwc3_dbg_setup(struct dwc3 *dwc, u8 ep_num,
 			ep_num, "SETUP", req->bRequestType,
 			req->bRequest, le16_to_cpu(req->wValue),
 			le16_to_cpu(req->wIndex), le16_to_cpu(req->wLength));
-		pr_err("%02X %-25.25s ?\t%02X %02X %04X %04X %d",
-			ep_num, "SETUP", req->bRequestType,
-			req->bRequest, le16_to_cpu(req->wValue),
-			le16_to_cpu(req->wIndex), le16_to_cpu(req->wLength));
 	}
 }
 
@@ -145,7 +136,6 @@ void dwc3_dbg_print_reg(struct dwc3 *dwc, const char *name, int reg)
 		return;
 
 	ipc_log_string(dwc->dwc_ipc_log_ctxt, "%s = 0x%08x", name, reg);
-	pr_err("%s = 0x%08x", name, reg);
 }
 
 void dwc3_dbg_dma_unmap(struct dwc3 *dwc, u8 ep_num, struct dwc3_request *req)
