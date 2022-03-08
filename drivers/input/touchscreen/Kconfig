@@ -1321,8 +1321,6 @@ source "drivers/input/touchscreen/focaltech_touch/Kconfig"
 
 source "drivers/input/touchscreen/synaptics_tcm/Kconfig"
 
-source "drivers/input/touchscreen/xiaomi/Kconfig"
-
 source "drivers/input/touchscreen/gt9897t/Kconfig"
 
 config TOUCHSCREEN_SYNAPTICS_DSX
