@@ -21,6 +21,7 @@
 #include <linux/power_supply.h>
 #include "../xiaomi/xiaomi_touch.h"
 #ifdef CONFIG_OF
+#include <linux/gpio.h>
 #include <linux/of_gpio.h>
 #include <linux/regulator/consumer.h>
 #endif
@@ -54,10 +55,6 @@
 #define PANEL_ORIENTATION_DEGREE_90		1	/* anticlockwise 90 degrees */
 #define PANEL_ORIENTATION_DEGREE_180	2	/* anticlockwise 180 degrees */
 #define PANEL_ORIENTATION_DEGREE_270	3	/* anticlockwise 270 degrees */
-#define GOODIX_LOCKDOWN_SIZE 8
-
-#define TS_DEFAULT_FIRMWARE			"goodix_gt9897t_fw_k9d.bin"
-#define TS_DEFAULT_CFG_BIN		"goodix_gt9897t_cfg_k9d.bin"
 
 #ifdef GOODIX_DEBUGFS_ENABLE
 #include <linux/debugfs.h>
@@ -238,13 +235,6 @@ struct goodix_module {
 	struct goodix_ts_core *core_data;
 };
 
-struct goodix_config_info {
-	u8 display_maker;
-	const char *gdx_fw_name;
-	const char *gdx_cfg_name;
-	const char *gdx_limit_name;
-};
-
 /*
  * struct goodix_ts_board_data -  board data
  * @avdd_name: name of analoy regulator
@@ -273,9 +263,6 @@ struct goodix_ts_board_data {
 	bool pen_enable;
 	const char *fw_name;
 	const char *cfg_bin_name;
-	uint32_t config_array_size;
-	struct goodix_config_info *config_array;
-	int panel_index;
 };
 
 enum goodix_fw_update_mode {
@@ -606,13 +593,14 @@ struct goodix_ext_attribute {
 static struct goodix_ext_attribute ext_attr_##_name = \
 	__EXTMOD_ATTR(_name, _mode, _show, _store);
 
+
+#define CONFIG_GOODIX_DEBUG
 /* log macro */
+#define ts_info(fmt, arg...)	pr_info("[GTP-INF][%s:%d] "fmt"\n", __func__, __LINE__, ##arg)
 #define	ts_err(fmt, arg...)		pr_err("[GTP-ERR][%s:%d] "fmt"\n", __func__, __LINE__, ##arg)
 #ifdef CONFIG_GOODIX_DEBUG
-#define ts_info(fmt, arg...)	pr_info("[GTP-INF][%s:%d] "fmt"\n", __func__, __LINE__, ##arg)
 #define ts_debug(fmt, arg...)	pr_info("[GTP-DBG][%s:%d] "fmt"\n", __func__, __LINE__, ##arg)
 #else
-#define ts_info(fmt, arg...)	do {} while (0)
 #define ts_debug(fmt, arg...)	do {} while (0)
 #endif
 
@@ -664,8 +652,6 @@ int checksum_cmp(const u8 *data, int size, int mode);
 int is_risk_data(const u8 *data, int size);
 u32 goodix_get_file_config_id(u8 *ic_config);
 void goodix_rotate_abcd2cbad(int tx, int rx, s16 *data);
-void goodix_match_fw(struct goodix_ts_core *core_data);
-int goodix_ts_get_lockdowninfo(struct goodix_ts_core *core_data);
 
 int goodix_fw_update_init(struct goodix_ts_core *core_data);
 void goodix_fw_update_uninit(void);
