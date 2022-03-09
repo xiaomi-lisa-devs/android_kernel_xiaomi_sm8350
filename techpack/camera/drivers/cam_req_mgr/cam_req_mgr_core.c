@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
  * Copyright (c) 2016-2021, The Linux Foundation. All rights reserved.
- * Copyright (C) 2021 XiaoMi, Inc.
  */
 
 #include <linux/module.h>
@@ -2897,13 +2896,6 @@ int cam_req_mgr_process_error(void *priv, void *data)
 			__cam_req_mgr_tbl_set_all_skip_cnt(&link->req.l_tbl);
 			in_q->rd_idx = idx;
 			in_q->slot[idx].status = CRM_SLOT_STATUS_REQ_ADDED;
-
-			if (link->sync_link[0]) {
-				in_q->slot[idx].sync_mode = 0;
-				__cam_req_mgr_inc_idx(&idx, 1,
-					link->req.l_tbl->num_slots);
-				in_q->slot[idx].sync_mode = 0;
-			}
 
 			/* The next req may also be applied */
 			idx = in_q->rd_idx;
