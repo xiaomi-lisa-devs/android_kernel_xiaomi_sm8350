@@ -33,10 +33,8 @@
 #include "adsp_err.h"
 #include "q6afecal-hwdep.h"
 
-#if !defined(CONFIG_TARGET_PRODUCT_LISA)
 #ifdef CONFIG_MSM_CSPL
 #include <dsp/msm-cirrus-playback.h>
-#endif
 #endif
 
 #ifdef CONFIG_SND_SOC_TFA9874_FOR_DAVI
@@ -1095,9 +1093,11 @@ static int32_t afe_callback(struct apr_client_data *data, void *priv)
 		uint32_t param_id;
 		uint32_t param_id_pos = 0;
 
+#if !defined(CONFIG_TARGET_PRODUCT_LISA)
 #ifdef CONFIG_MSM_CSPL
 		if (crus_afe_callback(data->payload, data->payload_size) == 0)
 			return 0;
+#endif
 #endif
 
 		if (!payload || (data->token >= AFE_MAX_PORTS)) {
