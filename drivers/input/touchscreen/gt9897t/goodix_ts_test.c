@@ -17,7 +17,7 @@
 #define SAVE_IN_CSV
 
 #define GOODIX_RESULT_SAVE_PATH		"/data/misc/tp_selftest_data/Test_Data.csv"
-#define GOODIX_TEST_FILE_NAME		"k9"
+#define GOODIX_TEST_FILE_NAME		"k9d"
 #define MAX_DATA_BUFFER				15000
 #define MAX_DRV_NUM					21
 #define MAX_SEN_NUM					42

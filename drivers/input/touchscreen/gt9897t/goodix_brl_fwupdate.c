@@ -17,7 +17,7 @@
   */
 #include "goodix_ts_core.h"
 
-#define TS_DEFAULT_FIRMWARE			"goodix_gt9897t_fw_k9.bin"
+#define TS_DEFAULT_FIRMWARE			"goodix_gt9897t_fw_k9d.bin"
 
 #define BUS_TYPE_SPI					0x01
 #define BUS_TYPE_I2C					0
