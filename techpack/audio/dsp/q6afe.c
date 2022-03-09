@@ -33,8 +33,10 @@
 #include "adsp_err.h"
 #include "q6afecal-hwdep.h"
 
+#if !defined(CONFIG_TARGET_PRODUCT_LISA)
 #ifdef CONFIG_MSM_CSPL
 #include <dsp/msm-cirrus-playback.h>
+#endif
 #endif
 
 #ifdef CONFIG_SND_SOC_TFA9874_FOR_DAVI
@@ -6648,11 +6650,12 @@ static int __afe_port_start(u16 port_id, union afe_port_config *afe_config,
 		goto fail_cmd;
 	}
 	ret = afe_send_cmd_port_start(port_id);
+#if !defined(CONFIG_TARGET_PRODUCT_LISA)
 #if CONFIG_MSM_CSPL
 	if (ret == 0)
 		crus_afe_port_start(port_id);
 #endif
-
+#endif
 
 fail_cmd:
 	if (ret)
@@ -9829,8 +9832,10 @@ int afe_close(int port_id)
 	if (ret)
 		pr_err("%s: AFE close failed %d\n", __func__, ret);
 
+#if !defined(CONFIG_TARGET_PRODUCT_LISA)
 #if CONFIG_MSM_CSPL
 	crus_afe_port_close(port_id);
+#endif
 #endif
 
 fail_cmd:
