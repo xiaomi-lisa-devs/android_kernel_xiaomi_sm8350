@@ -1,5 +1,5 @@
-config TOUCHSCREEN_GOODIX_BRL
-	tristate "Goodix 9897 Touchscreen"
+config TOUCHSCREEN_GOODIX_BRL_K9
+	tristate "Goodix 9897 k9 Touchscreen"
 	default n
 	depends on SPI_MASTER
 	help
@@ -9,10 +9,10 @@ config TOUCHSCREEN_GOODIX_BRL
 
 	  To compile this driver as a module, choose M here.
 
-config TOUCHSCREEN_GOODIX_TS_TOOLS
+config TOUCHSCREEN_GOODIX_TS_TOOLS_K9
 	tristate "Goodix debug tools support"
 	default n
-	depends on TOUCHSCREEN_GOODIX_BRL
+	depends on TOUCHSCREEN_GOODIX_BRL_K9
 	help
 	  Say Y here to enable debug tools
 
@@ -20,10 +20,10 @@ config TOUCHSCREEN_GOODIX_TS_TOOLS
 
 	  To compile this driver as a module, choose M here.
 
-config TOUCHSCREEN_GOODIX_TS_GESTURE
+config TOUCHSCREEN_GOODIX_TS_GESTURE_K9
 	tristate "Goodix gesture support"
 	default n
-	depends on TOUCHSCREEN_GOODIX_BRL
+	depends on TOUCHSCREEN_GOODIX_BRL_K9
 	help
 	  Say Y to enable gesture
 
