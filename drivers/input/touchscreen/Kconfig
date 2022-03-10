@@ -1340,6 +1340,7 @@ source "drivers/input/touchscreen/nt36xxx/Kconfig"
 
 source "drivers/input/touchscreen/focaltech_3658u/Kconfig"
 source "drivers/input/touchscreen/gt9897t_k9/Kconfig"
+source "drivers/input/touchscreen/gt9897t_k9d/Kconfig"
 source "drivers/input/touchscreen/xiaomi/Kconfig"
 
 endif
