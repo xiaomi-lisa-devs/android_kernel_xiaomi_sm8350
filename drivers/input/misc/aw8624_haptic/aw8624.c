@@ -59,6 +59,9 @@
 #define OSC_CALIBRATION_T_LENGTH 5100000
 #define PM_QOS_VALUE_VB 400
 
+#ifdef pr_info
+#undef pr_info
+#endif
 #define pr_info pr_debug
 
 struct pm_qos_request pm_qos_req_vb;
