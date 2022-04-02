@@ -56,6 +56,7 @@ if [ -f "$kernel" ] && [ -f "$dtb" ] && [ -f "$dtbo" ]; then
 	cp out/modules/lib/modules/5.4*/modules.order AnyKernel3/modules/vendor/lib/modules/modules.load
 	sed -i 's/\(kernel\/[^: ]*\/\)\([^: ]*\.ko\)/\/vendor\/lib\/modules\/\2/g' AnyKernel3/modules/vendor/lib/modules/modules.dep
 	sed -i 's/.*\///g' AnyKernel3/modules/vendor/lib/modules/modules.load
+	rm -rf AnyKernel3/modules/vendor/lib/modules/qti_battery_charger_main.ko
 	rm -rf out/arch/arm64/boot out/modules
 	cd AnyKernel3
 	git checkout lisa-aosp &> /dev/null
