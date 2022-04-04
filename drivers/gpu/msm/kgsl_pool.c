@@ -108,7 +108,6 @@ _kgsl_pool_add_page(struct kgsl_page_pool *pool, struct page *p)
 	llist_add((struct llist_node *)&p->lru, &pool->page_list);
 	atomic_inc(&pool->page_count);
 
-	trace_kgsl_pool_add_page(pool->pool_order, pool->page_count);
 	mod_node_page_state(page_pgdat(p),  NR_KERNEL_MISC_RECLAIMABLE,
 				(1 << pool->pool_order));
 }
@@ -130,7 +129,6 @@ _kgsl_pool_get_page(struct kgsl_page_pool *pool)
 	atomic_dec(&pool->page_count);
 	p = container_of((struct list_head *)node, typeof(*p), lru);
 
-	trace_kgsl_pool_get_page(pool->pool_order, pool->page_count);
 	mod_node_page_state(page_pgdat(p), NR_KERNEL_MISC_RECLAIMABLE,
 				-(1 << pool->pool_order));
 	return p;
