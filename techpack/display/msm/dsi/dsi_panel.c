@@ -351,9 +351,6 @@ static int dsi_panel_power_on(struct dsi_panel *panel)
 		goto error_disable_vregs;
 	}
 
-	if (panel->lp11_init)
-		goto exit;
-
 	rc = dsi_panel_reset(panel);
 	if (rc) {
 		DSI_ERR("[%s] failed to reset panel, rc=%d\n", panel->name, rc);
@@ -1162,15 +1159,6 @@ static int dsi_panel_parse_misc_host_config(struct dsi_host_common_cfg *host,
 		host->dma_sched_window = 0;
 	else
 		host->dma_sched_window = window;
-
-	rc = utils->read_u32(utils->data, "qcom,mdss-dsi-clk-strength", &val);
-	if (!rc) {
-		host->clk_strength = val;
-		pr_info("[%s] clk_strength = %d\n", name, val);
-	} else {
-		host->clk_strength = 0;
-		pr_info("[%s] clk_strength default value = %d\n", name, val);
-	}
 
 	DSI_DEBUG("[%s] DMA scheduling parameters Line: %d Window: %d\n", name,
 			host->dma_sched_line, host->dma_sched_window);
@@ -2567,14 +2555,6 @@ static int dsi_panel_parse_dsc_params(struct dsi_display_mode *mode,
 	if (!priv_info->dsc_enabled) {
 		DSI_DEBUG("dsc compression is not enabled for the mode\n");
 		return 0;
-	}
-
-	rc = utils->read_u64(utils->data, "mi,mdss-dsc-panel-id", &priv_info->dsc.config.dsc_panel_id);
-	if (rc) {
-		priv_info->dsc.config.dsc_panel_id = 0;
-		DSI_DEBUG("mi,mdss-dsc-panel-id not specified\n");
-	} else {
-		DSI_DEBUG("mi,mdss-dsc-panel-id is 0x%llx\n", priv_info->dsc.config.dsc_panel_id);
 	}
 
 	rc = utils->read_u32(utils->data, "qcom,mdss-dsc-version", &data);
@@ -4218,6 +4198,11 @@ int dsi_panel_pre_prepare(struct dsi_panel *panel)
 	}
 
 	mutex_lock(&panel->panel_lock);
+
+	/* If LP11_INIT is set, panel will be powered up during prepare() */
+	if (panel->lp11_init)
+		goto error;
+
 	rc = dsi_panel_power_on(panel);
 	if (rc) {
 		DSI_ERR("[%s] panel power on failed, rc=%d\n", panel->name, rc);
@@ -4377,9 +4362,9 @@ int dsi_panel_prepare(struct dsi_panel *panel)
 	mutex_lock(&panel->panel_lock);
 
 	if (panel->lp11_init) {
-		rc = dsi_panel_reset(panel);
+		rc = dsi_panel_power_on(panel);
 		if (rc) {
-			DSI_ERR("[%s] panel reset failed, rc=%d\n",
+			DSI_ERR("[%s] panel power on failed, rc=%d\n",
 			       panel->name, rc);
 			goto error;
 		}
